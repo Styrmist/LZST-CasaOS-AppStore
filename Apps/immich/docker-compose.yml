@@ -1,5 +1,5 @@
 # Configuration for big-bear-immich setup
-name: big-bear-immich
+name: immich
 
 # Service definitions for the big-bear-immich application
 services:
@@ -11,13 +11,13 @@ services:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     ports: # Mapping ports from the host OS to the container
-      - 2283:3001
+      - ${WEBUI_PORT:-2201}:3001
     volumes: # Mounting directories for persistent data storage
       - /DATA/AppData/$AppID/upload:/usr/src/app/upload
     environment: # Setting environment variables
       DB_HOSTNAME: immich-postgres
-      DB_USERNAME: casaos
-      DB_PASSWORD: casaos
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE_NAME: immich
       DB_PORT: "5432"
       REDIS_HOSTNAME: immich-redis
@@ -29,7 +29,7 @@ services:
 
     # Networks to be attached to the container
     networks:
-      - big_bear_immich_network
+      - immich_network
 
     x-casaos: # CasaOS specific configuration
       envs:
@@ -71,8 +71,8 @@ services:
       - /DATA/AppData/$AppID/model-cache:/cache
     environment: # Setting environment variables
       DB_HOSTNAME: immich-postgres
-      DB_USERNAME: casaos
-      DB_PASSWORD: casaos
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE_NAME: casaos
       DB_PORT: 5432
       REDIS_HOSTNAME: immich-redis
@@ -80,7 +80,7 @@ services:
 
     # Networks to be attached to the container
     networks:
-      - big_bear_immich_network # Connects the container to a defined network
+      - immich_network # Connects the container to a defined network
 
     x-casaos: # CasaOS specific configuration
       envs:
@@ -113,15 +113,15 @@ services:
     image: redis:6.2-alpine@sha256:70a7a5b641117670beae0d80658430853896b5ef269ccf00d1827427e3263fa3 # Image to be used
     restart: always # Policy to always restart the container if it stops
     networks:
-      - big_bear_immich_network # Connects the container to a defined network
+      - immich_network # Connects the container to a defined network
 
   # Configuration for Database service
   database:
     container_name: immich-postgres # Name of the running container
     image: tensorchord/pgvecto-rs:pg14-v0.2.0 # Image to be used
     environment: # Setting environment variables
-      POSTGRES_PASSWORD: casaos
-      POSTGRES_USER: casaos
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: immich
       PG_DATA: /var/lib/postgresql/data
     volumes: # Mounting directories for persistent data storage
@@ -130,7 +130,7 @@ services:
 
     # CasaOS specific configuration for the database service
     networks:
-      - big_bear_immich_network # Connects the container to a defined network
+      - immich_network # Connects the container to a defined network
 
     x-casaos: # CasaOS specific configuration
       envs:
@@ -152,7 +152,7 @@ services:
             en_us: "Container Path: /var/lib/postgresql/data"
 
 networks: # Defines network configurations for the services
-  big_bear_immich_network:
+  immich_network:
     driver: bridge # Uses bridge network driver
 
 # CasaOS specific configuration
@@ -166,7 +166,7 @@ x-casaos:
   tagline: # Short description or tagline in different languages
     en_us: Immich
   developer: "" # Developer's name or identifier
-  author: BigBearTechWorld # Author of this configuration
+  author: LZST # Author of this configuration
   icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png
   # Thumbnail image (currently empty)
   thumbnail: ""
@@ -174,6 +174,6 @@ x-casaos:
   title:
     en_us: Immich
   # Application category
-  category: BigBearCasaOS
+  category: LZST_Store
   # Port mapping information
-  port_map: "2283"
+  port_map: ${WEBUI_PORT:-2201}
