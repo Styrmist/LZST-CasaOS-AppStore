@@ -1,5 +1,5 @@
 # Configuration for big-bear-immich setup
-name: immich
+name: immich-lzst
 
 # Service definitions for the big-bear-immich application
 services:
@@ -164,7 +164,7 @@ x-casaos:
   description: # Description in different languages
     en_us: Self-hosted photo and video storage.
   tagline: # Short description or tagline in different languages
-    en_us: Immich
+    en_us: immich-lzst
   developer: "" # Developer's name or identifier
   author: LZST # Author of this configuration
   icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png
@@ -172,7 +172,7 @@ x-casaos:
   thumbnail: ""
   # Title of the application in English
   title:
-    en_us: Immich
+    en_us: immich-lzst
   # Application category
   category: LZST_Store
   # Port mapping information
