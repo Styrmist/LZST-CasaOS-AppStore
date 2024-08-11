@@ -18,10 +18,6 @@ https://github.com/bigbeartechworld/big-bear-casaos/archive/refs/heads/master.zi
 
 If you have a suggestion for an app, please post in the [BigBearCommunity](https://community.bigbeartechworld.com) server.
 
-# Support The Project
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E5NDK3I)
-
 ## Apps
 
 | Application | Docker Image | Version | YouTube Video | Docs |
